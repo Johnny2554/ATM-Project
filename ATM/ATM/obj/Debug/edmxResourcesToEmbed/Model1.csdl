@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ATMAccountModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="AccountHolder">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="UserSurname" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Balance" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="UserSurname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AccountLink" Type="Int32" />
+    <NavigationProperty Name="atrmlogin" Relationship="Self.FK__AccountHo__Accou__173876EA" FromRole="AccountHolder" ToRole="atrmlogin" />
+  </EntityType>
+  <EntityType Name="atrmlogin">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Account_No" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="Userpass" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AccountHolders" Relationship="Self.FK__AccountHo__Accou__173876EA" FromRole="atrmlogin" ToRole="AccountHolder" />
+  </EntityType>
+  <Association Name="FK__AccountHo__Accou__173876EA">
+    <End Role="atrmlogin" Type="Self.atrmlogin" Multiplicity="0..1" />
+    <End Role="AccountHolder" Type="Self.AccountHolder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="atrmlogin">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="AccountHolder">
+        <PropertyRef Name="AccountLink" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ATMAccountEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="AccountHolders" EntityType="Self.AccountHolder" />
+    <EntitySet Name="atrmlogins" EntityType="Self.atrmlogin" />
+    <AssociationSet Name="FK__AccountHo__Accou__173876EA" Association="Self.FK__AccountHo__Accou__173876EA">
+      <End Role="atrmlogin" EntitySet="atrmlogins" />
+      <End Role="AccountHolder" EntitySet="AccountHolders" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

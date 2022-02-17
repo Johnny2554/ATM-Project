@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="ATMAccountModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="AccountHolder">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Balance" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="UserSurname" Type="nvarchar" MaxLength="50" />
+    <Property Name="AccountLink" Type="int" />
+  </EntityType>
+  <EntityType Name="atrmlogin">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Account_No" Type="decimal" Precision="18" Scale="0" />
+    <Property Name="Userpass" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__AccountHo__Accou__173876EA">
+    <End Role="atrmlogin" Type="Self.atrmlogin" Multiplicity="0..1" />
+    <End Role="AccountHolder" Type="Self.AccountHolder" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="atrmlogin">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="AccountHolder">
+        <PropertyRef Name="AccountLink" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="ATMAccountModelStoreContainer">
+    <EntitySet Name="AccountHolder" EntityType="Self.AccountHolder" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="atrmlogin" EntityType="Self.atrmlogin" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__AccountHo__Accou__173876EA" Association="Self.FK__AccountHo__Accou__173876EA">
+      <End Role="atrmlogin" EntitySet="atrmlogin" />
+      <End Role="AccountHolder" EntitySet="AccountHolder" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
